@@ -302,10 +302,7 @@ const MenuOptions = ({
                       val = <results.path />;
                     }
                     return (
-                      <CommandItem
-                        key={opt.id}
-                        className="md:w-[320px] max-w-full w-full"
-                      >
+                      <CommandItem key={opt.id} className="md:w-[320px] w-full">
                         <Link
                           href={opt.link}
                           className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"

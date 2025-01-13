@@ -1,3 +1,5 @@
+import BlurPage from "@/components/global/blur-page";
+import InfoBar from "@/components/global/info-bar";
 import Sidebar from "@/components/sidebar";
 import {
   getNotificationAndUser,
@@ -26,6 +28,7 @@ const Layout = async ({ children, params }: Props) => {
   )
     return redirect("/agency/unauthorized");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let allNotifications: any = [];
 
   const notifications = await getNotificationAndUser(agencyId);
@@ -34,7 +37,12 @@ const Layout = async ({ children, params }: Props) => {
   return (
     <div className="h-screen overflow-hidden">
       <Sidebar id={(await params).agencyId} type="agency" />
-      <div className="md:pl-[300px]">{children}</div>
+      <div className="md:pl-[300px]">
+        <InfoBar notifications={allNotifications} />
+        <div className="relative">
+          <BlurPage>{children}</BlurPage>
+        </div>
+      </div>
     </div>
   );
 };
