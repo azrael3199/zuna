@@ -75,16 +75,16 @@ const AgencyDetails = ({ data }: Props) => {
     mode: "onChange",
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: data?.name,
-      companyEmail: data?.companyEmail,
-      companyPhone: data?.companyPhone,
+      name: data?.name || "",
+      companyEmail: data?.companyEmail || "",
+      companyPhone: data?.companyPhone || "",
       whiteLabel: data?.whiteLabel || false,
-      address: data?.address,
-      city: data?.city,
-      state: data?.state,
-      zipCode: data?.zipCode,
-      country: data?.country,
-      agencyLogo: data?.agencyLogo,
+      address: data?.address || "",
+      city: data?.city || "",
+      state: data?.state || "",
+      zipCode: data?.zipCode || "",
+      country: data?.country || "",
+      agencyLogo: data?.agencyLogo || "",
     },
   });
   const [deletingAgency, setDeletingAgency] = useState(false);
@@ -160,7 +160,7 @@ const AgencyDetails = ({ data }: Props) => {
     setDeletingAgency(true);
     // WIP: Discontinue agency subscription
     try {
-      const response = await deleteAgency(data.id);
+      await deleteAgency(data.id);
       toast({
         title: "Deleted Agency",
         description: "Agency and all sub accounts have been deleted.",
