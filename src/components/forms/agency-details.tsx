@@ -95,6 +95,7 @@ const AgencyDetails = ({ data }: Props) => {
     try {
       let newUserData;
       if (!data?.id) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const bodyData = {
           email: values.companyEmail,
           name: values.name,
@@ -188,7 +189,7 @@ const AgencyDetails = ({ data }: Props) => {
 
   return (
     <AlertDialog>
-      <Card className="w-full mt-4">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Agency Information</CardTitle>
           <CardDescription>
