@@ -15,7 +15,8 @@ export type ModalData = {
 type ModalContextType = {
   data: ModalData;
   isOpen: boolean;
-  setOpen: (modal: React.ReactNode, fetchData?: () => Promise<void>) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setOpen: (modal: React.ReactNode, fetchData?: () => Promise<any>) => void;
   setClose: () => void;
 };
 

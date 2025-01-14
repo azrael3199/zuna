@@ -3,7 +3,7 @@
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { db } from "./db";
 import { redirect } from "next/navigation";
-import { Agency, SubAccount, User } from "@prisma/client";
+import { Agency, Role, SubAccount, User } from "@prisma/client";
 import { v4 } from "uuid";
 
 export const getAuthUserDetails = async () => {
@@ -443,5 +443,93 @@ export const changeUserPermissions = async (
     return response;
   } catch (error) {
     console.log("🔴Could not change persmission", error);
+  }
+};
+
+export const getSubaccountDetails = async (subaccountId: string) => {
+  const response = await db.subAccount.findUnique({
+    where: {
+      id: subaccountId,
+    },
+  });
+  return response;
+};
+
+export const deleteSubAccount = async (subaccountId: string) => {
+  const response = await db.subAccount.delete({
+    where: {
+      id: subaccountId,
+    },
+  });
+  return response;
+};
+
+export const deleteUser = async (userId: string) => {
+  (await clerkClient()).users.updateUserMetadata(userId, {
+    privateMetadata: {
+      role: undefined,
+    },
+  });
+  const deletedUser = await db.user.delete({ where: { id: userId } });
+
+  return deletedUser;
+};
+
+export const getUser = async (id: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return user;
+};
+
+export const removeUserFromAgency = async (userId: string) => {
+  const response = await db.user.update({
+    where: { id: userId },
+    data: { agencyId: null },
+  });
+  return response;
+};
+
+export const sendInvitation = async (
+  role: Role,
+  email: string,
+  agencyId: string
+) => {
+  try {
+    console.log("🟢Inviting", email);
+    console.log("🟢Role", role);
+    console.log("🟢AgencyId", agencyId);
+
+    // Ensure clerkClient returns a valid client before making the API call
+    const clerk = await clerkClient();
+    const invitationResponse = await clerk.invitations.createInvitation({
+      emailAddress: email,
+      redirectUrl: process.env.NEXT_PUBLIC_URL,
+      publicMetadata: {
+        throughInvitation: true,
+        role,
+      },
+      ignoreExisting: true,
+    });
+
+    if (!invitationResponse || invitationResponse.status === "revoked") {
+      throw new Error(
+        `Failed to send invitation: ${invitationResponse.status}`
+      );
+    }
+
+    const dbResponse = await db.invitation.create({
+      data: { email, agencyId, role },
+    });
+
+    return dbResponse;
+  } catch (error) {
+    console.error(error);
+
+    // Rethrow or handle error as appropriate
+    throw new Error("Failed to send invitation. Please check the details.");
   }
 };

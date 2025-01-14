@@ -64,15 +64,15 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: details?.name,
-      companyEmail: details?.companyEmail,
-      companyPhone: details?.companyPhone,
-      address: details?.address,
-      city: details?.city,
-      zipCode: details?.zipCode,
-      state: details?.state,
-      country: details?.country,
-      subAccountLogo: details?.subAccountLogo,
+      name: details?.name || "",
+      companyEmail: details?.companyEmail || "",
+      companyPhone: details?.companyPhone || "",
+      address: details?.address || "",
+      city: details?.city || "",
+      zipCode: details?.zipCode || "",
+      state: details?.state || "",
+      country: details?.country || "",
+      subAccountLogo: details?.subAccountLogo || "",
     },
   });
 
@@ -166,7 +166,7 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
                     <FormControl>
                       <Input
                         required
-                        placeholder="Your agency name"
+                        placeholder="Your account name"
                         {...field}
                       />
                     </FormControl>

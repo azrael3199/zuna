@@ -1,5 +1,4 @@
 import { getAuthUserDetails } from "@/lib/queries";
-import { User } from "lucide-react";
 import React from "react";
 import MenuOptions from "./menu-options";
 

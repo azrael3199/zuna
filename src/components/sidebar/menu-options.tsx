@@ -257,28 +257,25 @@ const MenuOptions = ({
                   </CommandList>
                   {(user?.role === "AGENCY_OWNER" ||
                     user?.role === "AGENCY_ADMIN") && (
-                    <SheetClose>
-                      <Button
-                        className="w-full flex gap-2"
-                        onClick={() =>
-                          setOpen(
-                            <CustomModal
-                              title="Create A Sub Account"
-                              subheading="You can switch between your agency account and the subaccount from the sidebar."
-                            >
-                              <SubAccountDetails
-                                agencyDetails={user?.Agency as Agency}
-                                userId={user?.id as string}
-                                userName={user?.name as string}
-                              />
-                            </CustomModal>
-                          )
-                        }
-                      >
-                        <PlusCircleIcon size={15}>
-                          Create Sub Account
-                        </PlusCircleIcon>
-                      </Button>
+                    <SheetClose
+                      className="w-full flex items-center justify-center gap-2 bg-primary p-2 rounded-md"
+                      onClick={() =>
+                        setOpen(
+                          <CustomModal
+                            title="Create A Sub Account"
+                            subheading="You can switch between your agency account and the subaccount from the sidebar."
+                          >
+                            <SubAccountDetails
+                              agencyDetails={user?.Agency as Agency}
+                              userId={user?.id as string}
+                              userName={user?.name as string}
+                            />
+                          </CustomModal>
+                        )
+                      }
+                    >
+                      <PlusCircleIcon size={15} />
+                      Create Sub Account
                     </SheetClose>
                   )}
                 </Command>

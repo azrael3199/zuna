@@ -1,8 +1,11 @@
+"use client";
+
 import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import { UploadDropzone } from "@/lib/uploadthing";
+import { useToast } from "@/hooks/use-toast";
 
 type Props = {
   apiEndpoint: "agencyLogo" | "avatar" | "subaccountLogo";
@@ -12,6 +15,8 @@ type Props = {
 
 const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
   const type = value?.split(".").pop();
+
+  const { toast } = useToast();
 
   if (value) {
     return (
@@ -53,7 +58,11 @@ const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
           onChange(res?.[0]?.url);
         }}
         onUploadError={(error: Error) => {
-          console.error(error);
+          toast({
+            title: "Something went wrong.",
+            description: error.message,
+            variant: "destructive",
+          });
         }}
       />
     </div>
